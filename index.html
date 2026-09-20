@@ -244,7 +244,7 @@ body {
   z-index: 10 !important;
 }
 
-/* 3. TIMELINE: Circle Icons exactly in the middle of the vertical line */
+/* 3. TIMELINE: Circle Icons exactly centered in middle of vertical line */
 .framer-tTMlQ .framer-z1yzir {
   position: relative !important;
   overflow: visible !important;
@@ -285,12 +285,13 @@ body {
   }
 }
 
-/* 4. BENEFITS SECTION: Sticky Card Pinning & White Space Removal */
+/* 4. BENEFITS SECTION: Pixel-Perfect Sticky Card Pinning & Zero White Space */
+#code.framer-lqkvgz,
 .framer-tTMlQ .framer-lqkvgz {
-  overflow: visible !important;
-  padding: 100px 0 80px !important;
   background-color: var(--token-7c81326e-440b-45fa-8c8c-4c71760936a3, #faf9f9) !important;
-  transition: height 0.2s ease;
+  position: relative !important;
+  overflow: visible !important;
+  padding: 100px 0 60px !important;
 }
 
 .framer-tTMlQ .framer-i7u1l0 {
@@ -301,18 +302,67 @@ body {
   overflow: visible !important;
 }
 
-.framer-tTMlQ .framer-1uex717 {
-  overflow: hidden !important;
+/* Force headline and letter visibility inside benefits section */
+#code [style*="opacity:0.001"],
+#code [style*="opacity: 0.001"],
+#code .framer-9vhdjj span,
+#code .framer-c8u16z span {
+  opacity: 1 !important;
+  transform: none !important;
+  display: inline-block !important;
 }
 
-.framer-tTMlQ .framer-1m0lm58 {
+/* Benefits Card Container & Horizontal Track Layout */
+.framer-tTMlQ .framer-1uex717 {
+  border: none !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  position: relative !important;
+}
+
+.framer-tTMlQ .framer-1m0lm58,
+.framer-tTMlQ .framer-1m0lm58 > .ssr-variant {
   display: flex !important;
   flex-flow: row nowrap !important;
-  transition: transform 0.08s ease-out;
+  height: 460px !important;
+  width: max-content !important;
+  align-items: center !important;
+  gap: 20px !important;
   will-change: transform;
 }
 
+.framer-tTMlQ .framer-1v8kqi2-container,
+.framer-tTMlQ .framer-1ac1nc8-container,
+.framer-tTMlQ .framer-1uj0k48-container,
+.framer-tTMlQ .framer-1amd9o9-container,
+.framer-tTMlQ .framer-123u9ge-container {
+  flex: 0 0 332px !important;
+  width: 332px !important;
+  height: 460px !important;
+  position: relative !important;
+}
+
+.framer-tTMlQ .framer-123u9ge-container {
+  flex: 0 0 333px !important;
+  width: 333px !important;
+}
+
+/* Beautiful Clean White Card Design matching reference */
+.framer-tTMlQ .framer-BElCM {
+  background-color: #ffffff !important;
+  border: 1px solid #e6e6e6 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 36px 32px !important;
+  box-sizing: border-box !important;
+}
+
 @media (max-width: 991.98px) {
+  #code.framer-lqkvgz,
   .framer-tTMlQ .framer-lqkvgz {
     height: auto !important;
     padding: 60px 0 !important;
@@ -321,9 +371,16 @@ body {
     position: relative !important;
     top: 0 !important;
   }
+  .framer-tTMlQ .framer-12zr55u {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+  .framer-tTMlQ .framer-1aeq0qw {
+    width: 100% !important;
+  }
   .framer-tTMlQ .framer-1uex717 {
     overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch !important;
     width: 100% !important;
   }
   .framer-tTMlQ .framer-1m0lm58 {
@@ -396,10 +453,10 @@ body {
 <script id="custom-benefits-controller">
 (function() {
   function setupBenefitsScroll() {
-    const section = document.querySelector('.framer-lqkvgz');
+    const section = document.querySelector('#code') || document.querySelector('.framer-lqkvgz');
     const wrapper = document.querySelector('.framer-i7u1l0');
     const track = document.querySelector('.framer-1m0lm58');
-    const parentContainer = document.querySelector('.framer-1uex717');
+    const container = document.querySelector('.framer-1uex717');
 
     if (!section || !track) return;
 
@@ -407,33 +464,37 @@ body {
       if (window.innerWidth < 992) {
         section.style.height = 'auto';
         track.style.transform = 'none';
+        if (wrapper) {
+          wrapper.style.position = 'relative';
+          wrapper.style.top = '0';
+        }
         return;
       }
 
-      const cards = track.children;
-      let totalWidth = 0;
-      for (let i = 0; i < cards.length; i++) {
-        totalWidth += cards[i].offsetWidth || 332;
+      if (wrapper) {
+        wrapper.style.position = 'sticky';
+        wrapper.style.top = '120px';
       }
 
-      const containerWidth = (parentContainer && parentContainer.offsetWidth) || 750;
-      const maxHorizontalShift = Math.max(0, totalWidth - containerWidth + 60);
+      // Total width: 5 cards * (332 + 20px gap) = ~1760px
+      const totalCardsWidth = 1760;
+      const containerWidth = (container && container.clientWidth) || 750;
+      const maxHorizontalShift = Math.max(0, totalCardsWidth - containerWidth + 60);
 
-      // Dynamically tune section height:
-      // Height = window.innerHeight + maxHorizontalShift
-      // Eliminates ALL empty blank white space!
+      // Section height is strictly viewport + scroll distance needed
+      // No extra empty white space!
       const neededHeight = window.innerHeight + maxHorizontalShift;
       section.style.height = neededHeight + 'px';
 
       const rect = section.getBoundingClientRect();
-      const scrolled = -rect.top;
+      const scrolledPastTop = -rect.top;
 
-      if (scrolled <= 0) {
+      if (scrolledPastTop <= 0) {
         track.style.transform = 'translateX(0px)';
-      } else if (scrolled >= maxHorizontalShift) {
+      } else if (scrolledPastTop >= maxHorizontalShift) {
         track.style.transform = 'translateX(-' + maxHorizontalShift + 'px)';
       } else {
-        track.style.transform = 'translateX(-' + scrolled + 'px)';
+        track.style.transform = 'translateX(-' + scrolledPastTop + 'px)';
       }
     }
 
