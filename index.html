@@ -388,6 +388,57 @@ body {
     width: max-content !important;
   }
 }
+
+/* 5. USER REQUEST: REMOVE HORIZONTAL SCROLLBAR & BORDERS IN BENEFITS SECTION */
+.framer-tTMlQ .framer-1uex717,
+.framer-tTMlQ .framer-1m0lm58,
+.framer-tTMlQ .framer-1uex717 > div,
+.framer-tTMlQ .framer-1m0lm58 > div {
+  border: none !important;
+  border-width: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  --border-bottom-width: 0px !important;
+  --border-top-width: 0px !important;
+  --border-left-width: 0px !important;
+  --border-right-width: 0px !important;
+  --border-color: transparent !important;
+}
+
+/* Remove Framer data-border pseudo elements */
+.framer-tTMlQ .framer-1uex717[data-border=true]:after,
+.framer-tTMlQ .framer-1uex717 [data-border=true]:after,
+.framer-tTMlQ .framer-1m0lm58[data-border=true]:after,
+.framer-tTMlQ .framer-1m0lm58 [data-border=true]:after,
+.framer-tTMlQ .framer-1uex717::after,
+.framer-tTMlQ .framer-1m0lm58::after,
+.framer-tTMlQ .framer-1uex717::before,
+.framer-tTMlQ .framer-1m0lm58::before {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+  border-width: 0 !important;
+}
+
+/* Completely hide horizontal scrollbar across all engines (WebKit, Blink, Gecko, Trident) */
+.framer-tTMlQ .framer-1uex717,
+.framer-tTMlQ .framer-1m0lm58,
+.framer-tTMlQ .framer-1uex717 *,
+.framer-tTMlQ .framer-1m0lm58 * {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.framer-tTMlQ .framer-1uex717::-webkit-scrollbar,
+.framer-tTMlQ .framer-1m0lm58::-webkit-scrollbar,
+.framer-tTMlQ .framer-1uex717 *::-webkit-scrollbar,
+.framer-tTMlQ .framer-1m0lm58 *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 </style>
 
 </head>
